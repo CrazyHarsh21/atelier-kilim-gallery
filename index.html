@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ATELIER KILIM — Antique Archive &amp; Antiquities · 19th &amp; Early 20th Century Flatweaves</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:ital,wght@0,400;0,600;0,700;0,900;1,400&amp;family=EB+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&amp;family=Space+Grotesk:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "antique-parchment": "#f6eee3",
+            "antique-linen": "#efe4d2",
+            "antique-cream": "#faf5ee",
+            "madder-red": "#78221c",
+            "madder-deep": "#551410",
+            "tribal-indigo": "#1b2c42",
+            "indigo-midnight": "#111c2a",
+            "saffron-ochre": "#c5842c",
+            "saffron-amber": "#9c631c",
+            "walnut-dark": "#231815",
+            "charred-espresso": "#17100e",
+            "aged-border": "#d8c4b0",
+            "primary": "#5a0f0f",
+            "primary-container": "#782622",
+            "secondary": "#4b6079",
+            "surface": "#faf5ee",
+            "surface-container": "#f3e7d7",
+            "surface-container-high": "#ebe0ce",
+            "surface-container-low": "#fcf9f4",
+            "on-surface": "#231915",
+            "outline": "#8b736b"
+          },
+          fontFamily: {
+            "cinzel": ["Cinzel", "Georgia", "serif"],
+            "body-md": ["EB Garamond", "serif"],
+            "title-lg": ["Cinzel", "Playfair Display", "serif"],
+            "label-md": ["Space Grotesk", "sans-serif"]
+          }
+        }
+      }
+    };
+  </script>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #faf5ee;
+        color: #231915;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+    }
+    .kilim-border-tile {
+      background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDlf07pSzud-IpHPhGlxKeJ9NQpN7f--Wd2GGdVV1c5eWllRZW4oiUNhYwZ2vVX1C0x2kS8-w0-CD4QPGj7sfUr55D-rkrIIKfDmoEjnjmNsmasr0raP4mxBnIyoEnqE1yNf8ZVM5mKvsRIpWiFV-e2BonWCYfiFsXn0GQ8itQ7Wr5Ucu2eXANNOnRPGU97oDeAUGK72BMJEUXXilB6u9Oj0MW1_9Hojm1RsjcLuXjYpoBqiwwd1vM');
+      background-repeat: repeat-x;
+      background-size: auto 54px;
+      background-position: center;
+    }
+    .kilim-border-tile-thin {
+      background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDlf07pSzud-IpHPhGlxKeJ9NQpN7f--Wd2GGdVV1c5eWllRZW4oiUNhYwZ2vVX1C0x2kS8-w0-CD4QPGj7sfUr55D-rkrIIKfDmoEjnjmNsmasr0raP4mxBnIyoEnqE1yNf8ZVM5mKvsRIpWiFV-e2BonWCYfiFsXn0GQ8itQ7Wr5Ucu2eXANNOnRPGU97oDeAUGK72BMJEUXXilB6u9Oj0MW1_9Hojm1RsjcLuXjYpoBqiwwd1vM');
+      background-repeat: repeat-x;
+      background-size: auto 32px;
+      background-position: center;
+    }
+    .wax-seal {
+      box-shadow: inset 0 0 10px rgba(0,0,0,0.35), 0 4px 10px rgba(85,20,16,0.3);
+    }
+    .parchment-texture {
+      background-color: #faf5ee;
+      background-image: radial-gradient(#d8c4b0 0.75px, transparent 0.75px);
+      background-size: 20px 20px;
+    }
+    .film-sequence { height: 440vh; position: relative; background: #000; }
+    .film-stage { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+    .film-stage canvas { display: block; width: 100%; height: 100%; }
+    .preloader { position: fixed; inset: 0; z-index: 100; display: grid; place-items: center; overflow: hidden; background: #f6eee3; color: #231815; }
+    .preloader__curtain { position: absolute; inset-block: 0; width: 50.5%; background: #f6eee3; z-index: 1; }
+    .preloader__curtain::after { content: ""; position: absolute; inset: 0; opacity: .18; background-image: repeating-linear-gradient(90deg, transparent 0 5px, #c5842c 5px 6px, transparent 6px 16px), repeating-linear-gradient(0deg, transparent 0 8px, #78221c 8px 9px, transparent 9px 22px); }
+    .preloader__curtain--left { left: 0; border-right: 1px solid #78221c; }
+    .preloader__curtain--right { right: 0; border-left: 1px solid #78221c; }
+    .preloader__content { position: relative; z-index: 2; width: min(88vw, 450px); text-align: center; }
+    .kilim-loader-logo { width: 100%; height: auto; overflow: visible; }
+    .kilim-loader-logo [data-thread] { stroke-linecap: round; opacity: .65; }
+    .loader-copy { margin: .55rem 0 0; font-family: "Space Grotesk", sans-serif; font-size: 9px; font-weight: 600; letter-spacing: .19em; color: #78221c; }
+    .loader-line { width: 72px; height: 1px; margin: .85rem auto 0; background: #c5842c; transform-origin: center; }
+    body.is-loading { overflow: hidden; }
+    #site-hero { transform-origin: center; }
+    @media (prefers-reduced-motion: reduce) { .preloader__curtain::after { display: none; } }
+  </style>
+</head>
+<body class="font-body-md text-on-surface antialiased selection:bg-madder-red selection:text-antique-cream min-h-screen relative is-loading">
+<!-- Hand-woven logo preloader. Every named group is animated independently by GSAP. -->
+<div class="preloader" id="preloader" aria-label="Loading Atelier Kilim">
+<div class="preloader__curtain preloader__curtain--left"></div><div class="preloader__curtain preloader__curtain--right"></div>
+<div class="preloader__content">
+<svg class="kilim-loader-logo" viewBox="0 0 440 370" role="img" aria-label="Atelier Kilim woven mark">
+  <g id="kilim-mark" transform="translate(120 8)">
+    <g id="outer-threads" fill="none" stroke="#78221c" stroke-width="8"><path d="M100 2v36M100 262v36M2 150h36M162 150h36"/><path d="M52 12l20 28M148 12l-20 28M52 288l20-28M148 288l-20-28"/></g>
+    <g id="side-motifs" fill="#c5842c"><path d="M10 123l30-30 30 30-30 30zM10 177l30-30 30 30-30 30zM190 123l-30-30-30 30 30 30zM190 177l-30-30-30 30 30 30z"/></g>
+    <g id="cream-diamond" fill="#f6eee3" stroke="#231815" stroke-width="3"><path d="M100 28l100 122-100 122L0 150z"/></g>
+    <g id="navy-weave" fill="#1b2c42"><path d="M100 52l24 30-24 30-24-30zM48 150l24-30 24 30-24 30zM152 150l-24-30-24 30 24 30zM100 248l24-30-24-30-24 30z"/></g>
+    <g id="inner-rust" fill="#a84631"><path d="M100 92l56 58-56 58-56-58z"/></g>
+    <g id="olive-motif" fill="#434c38"><path d="M100 114l14 18-14 18-14-18zM100 168l14 18-14 18-14-18zM64 150l18-14 18 14-18 14zM136 150l-18-14-18 14 18 14z"/></g>
+    <g id="center-cream" fill="#f6eee3"><path d="M100 128l22 22-22 22-22-22z"/></g>
+    <g id="center-rust" fill="#78221c"><path d="M100 140l10 10-10 10-10-10z"/></g>
+    <g aria-hidden="true" fill="none" stroke-width="2"><path data-thread d="M-5 106H205" stroke="#a84631"/><path data-thread d="M-8 151H208" stroke="#c5842c"/><path data-thread d="M-5 196H205" stroke="#1b2c42"/></g>
+  </g>
+  <g id="wordmark" fill="#231815" text-anchor="middle">
+    <text id="kilim-text" x="220" y="325" font-family="Cinzel, Georgia, serif" font-size="28" font-weight="700" letter-spacing="8">KILIM</text>
+    <g id="studio-rule" stroke="#c5842c" stroke-width="1"><path d="M114 337h54M272 337h54"/></g>
+    <text id="studio-text" x="220" y="342" font-family="Space Grotesk, sans-serif" font-size="9" font-weight="700" letter-spacing="4">STUDIO</text>
+    <text id="stories-text" x="220" y="360" font-family="Space Grotesk, sans-serif" font-size="7" font-weight="600" letter-spacing="2.5">HANDWOVEN STORIES</text>
+  </g>
+</svg>
+<div class="loader-line"></div><p class="loader-copy">CRAFTING THE EXPERIENCE — <span id="loader-percent">0</span>%</p>
+</div>
+</div>
+<!-- ========================================== -->
+<!-- TOP MUSEUM REGISTRY BANNER & ORNAMENT -->
+<!-- ========================================== -->
+<div class="w-full bg-charred-espresso text-antique-parchment py-1.5 px-4 text-center border-b border-amber-950/60 flex items-center justify-between text-xs tracking-widest font-label-md">
+<span class="hidden md:flex items-center gap-2 text-saffron-ochre">
+<span class="material-symbols-outlined text-[15px]">verified_user</span>
+      OFFICIAL OTTOMAN &amp; CAUCASIAN PROVENANCE ARCHIVE
+    </span>
+<span class="mx-auto md:mx-0 flex items-center gap-2">
+<span class="inline-block w-2 h-2 rounded-full bg-amber-500 animate-pulse"></span>
+      CURATOR ON-CALL · PRIVATE CONSULTATIONS · WHATSAPP DIRECT (+91 88266 24536)
+    </span>
+<span class="hidden md:inline-block text-stone-400">ARCHIVE REGISTRY VOL. 1880–1940</span>
+</div>
+<!-- KILIM TAPESTRY BORDER STRIP ACCENT -->
+<div class="w-full h-8 kilim-border-tile-thin border-y border-amber-950/30 opacity-95"></div>
+<!-- ========================================== -->
+<!-- MAIN ANTIQUE HEADER -->
+<!-- ========================================== -->
+<header id="site-nav" class="sticky top-0 z-50 bg-[#faf5ee]/95 backdrop-blur-md border-b border-aged-border shadow-[0_4px_20px_rgba(35,25,21,0.06)] transition-all">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-24 flex items-center justify-between gap-4">
+<!-- Brand & Vintage Stamp Logo -->
+<a class="flex items-center gap-4 group" href="#">
+<div class="p-1 border border-madder-red/30 bg-antique-linen">
+<img alt="Atelier Kilim Antique Brand Seal" class="h-10 sm:h-12 w-auto object-contain filter contrast-125" src="https://lh3.googleusercontent.com/aida/AEtjO1UbVcluAgUbpjcyqBUcWjKoeosXlw5VCpRZir5GRxksAoLPwAgZp7Dlu0Mix0iqKOBkaxvJs2vneImJtwQFdFfqQwks3q3T23aBV7wBatI2AnnW9-E1HzDttkZM-W24U9TfqnkAyv9gkB9_sWahAWtFgxsVLzx3XOf1CRii5n1qCm7jMPAPzGnkjPduAm7J_eCbijIn2-7reeLl_AL-Qo-_i1e8V-Lk2MP9ysaDvUCOjPVwKxiruwr-"/>
+</div>
+<div class="flex flex-col text-left">
+<span class="font-cinzel text-lg sm:text-xl font-bold tracking-widest text-charred-espresso group-hover:text-madder-red transition-colors uppercase">
+            Atelier Kilim
+          </span>
+<span class="font-label-md text-[10px] sm:text-[11px] tracking-[0.25em] text-madder-red uppercase font-semibold">
+            Archive &amp; Antiquities · Est. Anatolia 1880
+          </span>
+</div>
+</a>
+<!-- Antique Navigation -->
+<nav class="hidden lg:flex items-center gap-8 font-label-md text-xs tracking-[0.2em] uppercase font-semibold text-walnut-dark">
+<a class="text-madder-red border-b-2 border-madder-red pb-1" href="#antique-vault">The Vault</a>
+<a class="hover:text-madder-red transition-colors pb-1" href="#provenance-section">Provenance &amp; Dyes</a>
+<a class="hover:text-madder-red transition-colors pb-1" href="#motif-lexicon">Tribal Motifs</a>
+<a class="hover:text-madder-red transition-colors pb-1" href="#curator-ethos">Curator Manifesto</a>
+<a class="hover:text-madder-red transition-colors pb-1" href="#concierge">Salon Inquiries</a>
+</nav>
+<!-- Right WhatsApp & Badge Actions -->
+<div class="flex items-center gap-3 shrink-0">
+<a class="hidden sm:inline-flex items-center gap-2.5 px-4 py-2 bg-madder-red hover:bg-charred-espresso text-antique-cream border border-madder-deep font-label-md text-xs tracking-widest uppercase transition-all shadow-sm" href="https://wa.me/905325454646?text=Hello%20Atelier%20Kilim%2C%20I%20wish%20to%20consult%20the%20head%20curator%20regarding%20an%20antique%20piece." rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[17px] text-amber-300">chat</span>
+<span>WhatsApp Curator</span>
+</a>
+<button aria-label="Open Archive Search" class="p-2.5 border border-aged-border bg-antique-linen text-walnut-dark hover:text-madder-red hover:border-madder-red transition-all" onclick="openDetailModal('The 1895 Malatya Diamond Anatolian Kilim', 'AK-1895-ML', '$4,850 USD', 'Circa 1895 · High Malatya Highlands', '100% Hand-Spun Wool on Wool Warp · Slit-tapestry', 'Wild Madder Root, Aged Fermented Indigo, Saffron, Spindle Walnut', '280 × 195 cm (9.2 × 6.4 ft)', 'https://lh3.googleusercontent.com/aida/AEtjO1X-lmB9UOK0pOMcx5VdiuOr-xNT6CC_JlIe45QqD0OjSsUnFMyJ2ptIQL8vesYgo39BHACSBfyLCMgnbtLrdQ-3oPnjn_lPSWooeuJTfwqe-jqqy-GL2QhR0PhTfzMmZr36c1K522cq19DpPbfwvN3tvFNS6m8wwUpG4AfIeSnUz9s-tL0TqHOYJgkLHmvO8xd2JT8D5iuqFoqzWuqoo7RPS6LGms6XSNoVyCuQEnt1VQZwbCFs45G6-A')">
+<span class="material-symbols-outlined text-[20px]">search</span>
+</button>
+</div>
+</div>
+</header>
+<!-- SCROLL FILM: supplied 240-frame sequence -->
+<section aria-label="Atelier Kilim moving image sequence" class="film-sequence" id="film-sequence">
+<div class="film-stage"><canvas id="film-canvas"></canvas></div>
+</section>
+<!-- ========================================== -->
+<!-- HERO SECTION: THE ANTIQUE VAULT ENTRANCE -->
+<!-- ========================================== -->
+<section id="site-hero" class="relative w-full bg-charred-espresso text-antique-parchment overflow-hidden border-b-4 border-madder-red">
+<div class="absolute inset-0 z-0">
+<img alt="Atmospheric antique Turkish Kilim rug room with limestone and antique architectural furniture" class="w-full h-full object-cover object-center filter brightness-[0.45] contrast-110" src="https://lh3.googleusercontent.com/aida/AEtjO1WJ5X7NZm3P9XsWf5SghOaeZ-cKTA59HlFqCyOUgl7AzQCkPxPucO6Ugd6gEJs1yqkWfv5MlfdYPDjBrkFs2zpPM8cFnBketdGqjewhWzX_E57VP0RKRfpdTLaqMw_tdEKfemqJUOEhJFYK4-iKkduCIIYI-CEGOgroqCSomUaQCI98tVHsCMUHvpP__7GXcwGt5N00ppELZdD7lg9Tn_cls9EA0L0GmAn_mBw4QKurh5mF80B-rHGRjg"/>
+<div class="absolute inset-0 bg-gradient-to-t from-charred-espresso via-charred-espresso/60 to-transparent"></div>
+<div class="absolute inset-0 bg-gradient-to-r from-charred-espresso/90 via-charred-espresso/50 to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20 pb-16 lg:py-28 flex flex-col justify-between">
+<!-- Museum Registry Stamp Header -->
+<div class="inline-flex items-center gap-3 px-4 py-1.5 border border-saffron-ochre/40 bg-walnut-dark/80 backdrop-blur-md w-fit mb-6">
+<span class="font-label-md text-xs tracking-[0.25em] text-saffron-ochre uppercase font-semibold">
+          ARCHIVE REGISTRY NO. AK-1892-OT
+        </span>
+<span class="w-1.5 h-1.5 rounded-full bg-madder-red"></span>
+<span class="font-body-md text-sm text-antique-parchment/80 italic">Verified 19th &amp; Early 20th C. Flatweaves</span>
+</div>
+<div class="max-w-3xl space-y-6">
+<h1 class="font-cinzel text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-antique-cream leading-[1.12]">
+          ANTIQUE KILIM <br/>
+<span class="italic font-normal text-saffron-ochre font-body-md tracking-normal text-4xl sm:text-6xl">Stories Woven in Wool &amp; Time.</span>
+</h1>
+<p class="font-body-md text-lg sm:text-xl text-antique-linen/90 font-light leading-relaxed max-w-2xl">
+          One-of-a-kind tribal flatweaves, hand-spun and vegetable-dyed over a century ago in the nomad pastures of Anatolia, the Caucasus, and Persia. Preserved in their original integrity for collectors and monumental spaces.
+        </p>
+<!-- CTAs -->
+<div class="flex flex-wrap items-center gap-4 pt-4">
+<a class="px-8 py-4 bg-madder-red hover:bg-red-900 text-antique-cream font-label-md text-xs tracking-[0.2em] uppercase font-bold transition-all shadow-xl flex items-center gap-3 border border-amber-700/40" href="#antique-vault">
+<span>Explore Antique Vault</span>
+<span class="material-symbols-outlined text-[18px]">south</span>
+</a>
+<a class="px-6 py-4 bg-walnut-dark/80 hover:bg-walnut-dark text-antique-parchment font-label-md text-xs tracking-widest uppercase border border-aged-border/40 transition-all flex items-center gap-3" href="https://wa.me/905325454646?text=Hi%20Atelier%20Kilim%2C%20I%20am%20interested%20in%20acquiring%20an%20authentic%20antique%20kilim%20from%20your%20archive." rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-saffron-ochre text-[18px]">chat</span>
+<span>Enquire on WhatsApp (+91 88266 24536)</span>
+</a>
+</div>
+</div>
+<!-- Provenance Credential Badges -->
+<div class="mt-14 pt-8 border-t border-antique-parchment/15 grid grid-cols-2 md:grid-cols-4 gap-6 font-label-md text-xs tracking-widest text-antique-parchment/80">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-saffron-ochre text-2xl">hourglass_bottom</span>
+<div>
+<span class="block text-white font-bold">Circa 1880–1940</span>
+<span class="text-[10px] text-stone-400">Highland Anatolian Antiquities</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-saffron-ochre text-2xl">eco</span>
+<div>
+<span class="block text-white font-bold">100% Wild Botanicals</span>
+<span class="text-[10px] text-stone-400">Madder, Indigo, Walnut, Saffron</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-saffron-ochre text-2xl">texture</span>
+<div>
+<span class="block text-white font-bold">Slit-Tapestry Weave</span>
+<span class="text-[10px] text-stone-400">Reversible Zero-Pile Wool</span>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-saffron-ochre text-2xl">history_edu</span>
+<div>
+<span class="block text-white font-bold">Certified Provenance</span>
+<span class="text-[10px] text-stone-400">Signed Curator Registry Document</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- TAPESTRY DIVIDER RIBBON -->
+<div class="w-full h-12 kilim-border-tile border-b border-madder-deep shadow-md"></div>
+<!-- ========================================== -->
+<!-- 4. CURATED ANTIQUE COLLECTION (THE VAULT) -->
+<!-- ========================================== -->
+<section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto parchment-texture" id="antique-vault">
+<!-- Header with Antique Flourish -->
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-12 border-b border-aged-border">
+<div class="space-y-3 max-w-2xl">
+<div class="inline-flex items-center gap-2 text-madder-red font-label-md text-xs tracking-[0.25em] uppercase font-bold">
+<span class="material-symbols-outlined text-base">account_balance</span>
+          CURATED MUSEUM HOLDINGS
+        </div>
+<h2 class="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-charred-espresso">
+          THE ANTIQUE VAULT
+        </h2>
+<p class="font-body-md text-lg text-walnut-dark/80 italic">
+          Individually photographed and catalogued specimens from private Ottoman estates and Anatolian village collections.
+        </p>
+</div>
+<!-- Vault Quick Filters -->
+<div class="flex flex-wrap gap-2 font-label-md text-xs tracking-widest uppercase">
+<button class="px-4 py-2 bg-madder-red text-antique-cream font-bold border border-madder-deep">All Vault (12 Available)</button>
+<button class="px-4 py-2 bg-antique-linen text-walnut-dark hover:bg-antique-parchment border border-aged-border">Eastern Anatolia</button>
+<button class="px-4 py-2 bg-antique-linen text-walnut-dark hover:bg-antique-parchment border border-aged-border">Caucasian &amp; Kazak</button>
+<button class="px-4 py-2 bg-antique-linen text-walnut-dark hover:bg-antique-parchment border border-aged-border">Architectural Runners</button>
+</div>
+</div>
+<!-- Editorial Asymmetric Grid of Antique Masterpieces -->
+<div class="mt-12 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-start">
+<!-- PIECE 1: THE 1895 MALATYA DIAMOND (Col 7 - Featured Museum Grade) -->
+<article class="lg:col-span-7 bg-antique-cream border-2 border-aged-border p-5 sm:p-7 shadow-lg relative group">
+<!-- Top Ornamental Wax Seal Tag -->
+<div class="flex justify-between items-center pb-4 mb-4 border-b border-aged-border">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-madder-red wax-seal"></span>
+<span class="font-label-md text-xs uppercase tracking-widest text-madder-red font-bold">CATALOGUE NO. AK-1895-ML</span>
+</div>
+<span class="font-label-md text-[11px] uppercase tracking-widest text-walnut-dark/60 bg-antique-linen px-2.5 py-1 border border-aged-border">
+            CERTIFIED ORIGINAL C. 1895
+          </span>
+</div>
+<!-- Image Container with Inspect Zoom -->
+<div class="relative overflow-hidden aspect-[4/3] bg-antique-linen border border-aged-border cursor-pointer" onclick="openDetailModal('The 1895 Malatya Diamond Anatolian Kilim', 'AK-1895-ML', '$4,850 USD', 'Circa 1895 · High Malatya Highlands', '100% Hand-Spun Wool on Wool Warp · Slit-tapestry', 'Wild Madder Root, Aged Fermented Indigo, Saffron, Spindle Walnut', '280 × 195 cm (9.2 × 6.4 ft)', 'https://lh3.googleusercontent.com/aida/AEtjO1X-lmB9UOK0pOMcx5VdiuOr-xNT6CC_JlIe45QqD0OjSsUnFMyJ2ptIQL8vesYgo39BHACSBfyLCMgnbtLrdQ-3oPnjn_lPSWooeuJTfwqe-jqqy-GL2QhR0PhTfzMmZr36c1K522cq19DpPbfwvN3tvFNS6m8wwUpG4AfIeSnUz9s-tL0TqHOYJgkLHmvO8xd2JT8D5iuqFoqzWuqoo7RPS6LGms6XSNoVyCuQEnt1VQZwbCFs45G6-A')">
+<img alt="The 1895 Malatya Diamond Anatolian Kilim laid flat in museum lighting" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" src="https://lh3.googleusercontent.com/aida/AEtjO1X-lmB9UOK0pOMcx5VdiuOr-xNT6CC_JlIe45QqD0OjSsUnFMyJ2ptIQL8vesYgo39BHACSBfyLCMgnbtLrdQ-3oPnjn_lPSWooeuJTfwqe-jqqy-GL2QhR0PhTfzMmZr36c1K522cq19DpPbfwvN3tvFNS6m8wwUpG4AfIeSnUz9s-tL0TqHOYJgkLHmvO8xd2JT8D5iuqFoqzWuqoo7RPS6LGms6XSNoVyCuQEnt1VQZwbCFs45G6-A"/>
+<div class="absolute bottom-3 right-3 bg-charred-espresso/90 text-antique-parchment px-3 py-1.5 font-label-md text-xs uppercase tracking-widest flex items-center gap-1.5 backdrop-blur-sm border border-saffron-ochre/40">
+<span class="material-symbols-outlined text-[16px] text-amber-300">zoom_in</span>
+<span>Examine Weave &amp; Selvedge</span>
+</div>
+</div>
+<!-- Information & Provenance Card -->
+<div class="pt-6 space-y-4">
+<div class="flex justify-between items-baseline flex-wrap gap-2">
+<div>
+<span class="font-label-md text-xs uppercase tracking-[0.2em] text-saffron-amber font-bold block">
+                Eastern Anatolia · Tribal Yörük Masterpiece
+              </span>
+<h3 class="font-cinzel text-2xl sm:text-3xl font-bold text-charred-espresso">
+                The 1895 Malatya Diamond Kilim
+              </h3>
+</div>
+<div class="text-right">
+<span class="font-label-md text-[11px] uppercase tracking-widest text-outline block">Acquisition Value</span>
+<span class="font-cinzel text-2xl font-bold text-madder-red">$4,850 USD</span>
+</div>
+</div>
+<p class="font-body-md text-base sm:text-lg text-walnut-dark leading-relaxed">
+            Preserved in exceptional condition, this monument piece features sacred stepped diamond medallions (Sandıklı) representing nomadic hearth protection. Dyed exclusively with high-altitude madder root, elderberry, and fermentation vats of wild indigo.
+          </p>
+<!-- Archival Specifications Table -->
+<div class="grid grid-cols-2 sm:grid-cols-4 gap-3 py-3 px-4 bg-antique-linen border border-aged-border font-label-md text-xs">
+<div>
+<span class="text-walnut-dark/60 block text-[10px] uppercase">Dimensions</span>
+<span class="font-bold text-charred-espresso">280 × 195 cm</span>
+</div>
+<div>
+<span class="text-walnut-dark/60 block text-[10px] uppercase">Warp / Weft</span>
+<span class="font-bold text-charred-espresso">Highland Wool</span>
+</div>
+<div>
+<span class="text-walnut-dark/60 block text-[10px] uppercase">Technique</span>
+<span class="font-bold text-charred-espresso">Slitweave Tapestry</span>
+</div>
+<div>
+<span class="text-walnut-dark/60 block text-[10px] uppercase">Conservation</span>
+<span class="font-bold text-madder-red">Museum Grade</span>
+</div>
+</div>
+<!-- Dual Call to Action Buttons -->
+<div class="flex flex-col sm:flex-row items-stretch gap-3 pt-2">
+<button class="flex-1 py-3.5 bg-antique-linen hover:bg-antique-parchment text-walnut-dark border border-aged-border font-label-md text-xs uppercase tracking-[0.18em] font-bold transition-all flex items-center justify-center gap-2" onclick="openDetailModal('The 1895 Malatya Diamond Anatolian Kilim', 'AK-1895-ML', '$4,850 USD', 'Circa 1895 · High Malatya Highlands', '100% Hand-Spun Wool on Wool Warp · Slit-tapestry', 'Wild Madder Root, Aged Fermented Indigo, Saffron, Spindle Walnut', '280 × 195 cm (9.2 × 6.4 ft)', 'https://lh3.googleusercontent.com/aida/AEtjO1X-lmB9UOK0pOMcx5VdiuOr-xNT6CC_JlIe45QqD0OjSsUnFMyJ2ptIQL8vesYgo39BHACSBfyLCMgnbtLrdQ-3oPnjn_lPSWooeuJTfwqe-jqqy-GL2QhR0PhTfzMmZr36c1K522cq19DpPbfwvN3tvFNS6m8wwUpG4AfIeSnUz9s-tL0TqHOYJgkLHmvO8xd2JT8D5iuqFoqzWuqoo7RPS6LGms6XSNoVyCuQEnt1VQZwbCFs45G6-A')">
+<span class="material-symbols-outlined text-[16px]">menu_book</span>
+<span>Read Full Provenance Dossier</span>
+</button>
+<a class="flex-1 py-3.5 bg-madder-red hover:bg-charred-espresso text-antique-cream border border-madder-deep font-label-md text-xs uppercase tracking-[0.18em] font-bold transition-all shadow-md flex items-center justify-center gap-2" href="https://wa.me/905325454646?text=Hi%2C%20I%20am%20inquiring%20about%20The%201895%20Malatya%20Diamond%20Kilim%20(AK-1895-ML%2C%20%244%2C850%20USD).%20Please%20share%20reserve%20details." rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[18px] text-amber-300">chat</span>
+<span>Ask Curator on WhatsApp</span>
+</a>
+</div>
+</div>
+</article>
+<!-- PIECE 2: THE 1910 SAFFRON STEPPED RUNNER (Col 5 - Architectural Wall Display) -->
+<article class="lg:col-span-5 bg-antique-cream border-2 border-aged-border p-5 sm:p-7 shadow-lg relative group">
+<div class="flex justify-between items-center pb-4 mb-4 border-b border-aged-border">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-saffron-ochre wax-seal"></span>
+<span class="font-label-md text-xs uppercase tracking-widest text-saffron-amber font-bold">CATALOGUE NO. AK-1910-KP</span>
+</div>
+<span class="font-label-md text-[11px] uppercase tracking-widest text-walnut-dark/60 bg-antique-linen px-2.5 py-1 border border-aged-border">
+            KARAPINAR C. 1910
+          </span>
+</div>
+<!-- Architectural Vertical Display Image -->
+<div class="relative overflow-hidden aspect-[3/4] bg-antique-linen border border-aged-border cursor-pointer" onclick="openDetailModal('The 1910 Saffron Stepped Runner', 'AK-1910-KP', '$3,200 USD', 'Circa 1910 · Karapinar Valley', 'Hand-Spun Long-Staple Mohair &amp; Wool Weft', 'Saffron Stigmata, Sage Leaves, Iron-Mordaunt Walnut', '360 × 90 cm (11.8 × 2.9 ft)', 'https://lh3.googleusercontent.com/aida/AEtjO1Xe2owrq5QCLeGt1mF3jvXsijzxj8JnsIpzr6P6_bizNlWWNuVW-9hYKYkbmCS8nIKBl6dvib9GYu7otMCKMLn-CEzhS5SbneenDbTzOXekiUw5Cx2Ocqa-Ei3JJODR3o22e5lckjav7rh-pVkUvupSODPvq1lUsJWt6hls4xXg8uLR7MKV0_AYp5vbGPSxoQ84USqrdRBpT454ujyqjgtIAAgOhO_5sxJ3xFgkbksaudjITzo4RjAQ')">
+<img alt="The 1910 Saffron Stepped Kilim Runner hung as fine architectural wall art" class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out" src="https://lh3.googleusercontent.com/aida/AEtjO1Xe2owrq5QCLeGt1mF3jvXsijzxj8JnsIpzr6P6_bizNlWWNuVW-9hYKYkbmCS8nIKBl6dvib9GYu7otMCKMLn-CEzhS5SbneenDbTzOXekiUw5Cx2Ocqa-Ei3JJODR3o22e5lckjav7rh-pVkUvupSODPvq1lUsJWt6hls4xXg8uLR7MKV0_AYp5vbGPSxoQ84USqrdRBpT454ujyqjgtIAAgOhO_5sxJ3xFgkbksaudjITzo4RjAQ"/>
+<div class="absolute top-3 left-3 bg-walnut-dark/85 text-antique-cream font-label-md text-[10px] uppercase tracking-widest px-3 py-1 border border-saffron-ochre/30">
+            Architectural Gallery Format
+          </div>
+</div>
+<div class="pt-6 space-y-4">
+<div class="flex justify-between items-baseline">
+<div>
+<span class="font-label-md text-xs uppercase tracking-[0.2em] text-saffron-amber font-bold block">
+                Central Anatolia · Karapinar
+              </span>
+<h3 class="font-cinzel text-xl sm:text-2xl font-bold text-charred-espresso">
+                The 1910 Saffron Runner
+              </h3>
+</div>
+<div class="text-right">
+<span class="font-cinzel text-xl font-bold text-madder-red">$3,200 USD</span>
+</div>
+</div>
+<p class="font-body-md text-base text-walnut-dark leading-relaxed">
+            A rare long-format tapestry originally woven for an Ottoman village chamber. Natural saffron-gold patina with stepped lozenges flanked by comb talismans. Perfect for vertical architectural hangings or corridors.
+          </p>
+<div class="grid grid-cols-2 gap-2 py-2 px-3 bg-antique-linen border border-aged-border font-label-md text-xs">
+<div><span class="text-stone-500">Dimensions:</span> <strong class="text-charred-espresso">360 × 90 cm</strong></div>
+<div><span class="text-stone-500">Fibers:</span> <strong class="text-charred-espresso">Mohair &amp; Wool</strong></div>
+</div>
+<a class="w-full py-3.5 bg-walnut-dark hover:bg-madder-red text-antique-cream font-label-md text-xs uppercase tracking-[0.18em] font-bold transition-all shadow-md flex items-center justify-center gap-2" href="https://wa.me/905325454646?text=Hello%20Atelier%20Kilim%2C%20I%20wish%20to%20reserve%20The%201910%20Saffron%20Stepped%20Runner%20(AK-1910-KP)." rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[18px] text-amber-300">chat</span>
+<span>Reserve via WhatsApp Line</span>
+</a>
+</div>
+</article>
+<!-- PIECE 3: 1920 KARS SHIRVAN NOMADIC (Col 4) -->
+<article class="lg:col-span-4 bg-antique-cream border border-aged-border p-5 shadow-sm space-y-4">
+<div class="flex justify-between items-center text-xs font-label-md text-walnut-dark/70 pb-2 border-b border-aged-border">
+<span>CATALOGUE AK-1920-KR</span>
+<span class="text-madder-red font-bold">$2,900 USD</span>
+</div>
+<div class="aspect-[4/3] overflow-hidden border border-aged-border bg-antique-linen">
+<img alt="Antique Kars nomadic Kilim with Indigo borders" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida/AEtjO1WJ5X7NZm3P9XsWf5SghOaeZ-cKTA59HlFqCyOUgl7AzQCkPxPucO6Ugd6gEJs1yqkWfv5MlfdYPDjBrkFs2zpPM8cFnBketdGqjewhWzX_E57VP0RKRfpdTLaqMw_tdEKfemqJUOEhJFYK4-iKkduCIIYI-CEGOgroqCSomUaQCI98tVHsCMUHvpP__7GXcwGt5N00ppELZdD7lg9Tn_cls9EA0L0GmAn_mBw4QKurh5mF80B-rHGRjg"/>
+</div>
+<div>
+<span class="font-label-md text-[10px] uppercase tracking-widest text-saffron-amber block font-semibold">Caucasian Foothills · Circa 1920</span>
+<h4 class="font-cinzel text-lg font-bold text-charred-espresso">Kars Kazak Geometric Tapestry</h4>
+<p class="font-body-md text-sm text-walnut-dark/80 mt-1">240 × 170 cm. Undyed sheep fleece field with double-cross protective amulets in natural lapis and madder root.</p>
+</div>
+<a class="inline-flex items-center gap-2 font-label-md text-xs uppercase tracking-widest text-madder-red hover:text-charred-espresso font-bold transition-colors pt-2" href="https://wa.me/905325454646?text=I%20am%20interested%20in%20the%20Kars%20Kazak%20Geometric%20Kilim%20(AK-1920-KR)." rel="noopener noreferrer" target="_blank">
+<span>Inquire Availability</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</a>
+</article>
+<!-- PIECE 4: 1885 BERGAMA SOUMAK PRAYER PANEL (Col 4) -->
+<article class="lg:col-span-4 bg-antique-cream border border-aged-border p-5 shadow-sm space-y-4">
+<div class="flex justify-between items-center text-xs font-label-md text-walnut-dark/70 pb-2 border-b border-aged-border">
+<span>CATALOGUE AK-1885-BG</span>
+<span class="text-madder-red font-bold">$3,950 USD</span>
+</div>
+<div class="aspect-[4/3] overflow-hidden border border-aged-border bg-antique-linen">
+<img alt="Antique Bergama flatweave Kilim with repeating comb patterns" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDlf07pSzud-IpHPhGlxKeJ9NQpN7f--Wd2GGdVV1c5eWllRZW4oiUNhYwZ2vVX1C0x2kS8-w0-CD4QPGj7sfUr55D-rkrIIKfDmoEjnjmNsmasr0raP4mxBnIyoEnqE1yNf8ZVM5mKvsRIpWiFV-e2BonWCYfiFsXn0GQ8itQ7Wr5Ucu2eXANNOnRPGU97oDeAUGK72BMJEUXXilB6u9Oj0MW1_9Hojm1RsjcLuXjYpoBqiwwd1vM"/>
+</div>
+<div>
+<span class="font-label-md text-[10px] uppercase tracking-widest text-saffron-amber block font-semibold">Aegean Bergama · Circa 1885</span>
+<h4 class="font-cinzel text-lg font-bold text-charred-espresso">Bergama Village Mihrab Weave</h4>
+<p class="font-body-md text-sm text-walnut-dark/80 mt-1">210 × 155 cm. Rare fine extra-weft brocading with pomegranate rind and walnut dyes. Collector specimen.</p>
+</div>
+<a class="inline-flex items-center gap-2 font-label-md text-xs uppercase tracking-widest text-madder-red hover:text-charred-espresso font-bold transition-colors pt-2" href="https://wa.me/905325454646?text=Please%20send%20details%20for%20Bergama%20Mihrab%20Weave%20(AK-1885-BG)." rel="noopener noreferrer" target="_blank">
+<span>Inquire Availability</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</a>
+</article>
+<!-- PIECE 5: 1915 QASHQAI NOMADIC MEDALLION (Col 4) -->
+<article class="lg:col-span-4 bg-antique-cream border border-aged-border p-5 shadow-sm space-y-4">
+<div class="flex justify-between items-center text-xs font-label-md text-walnut-dark/70 pb-2 border-b border-aged-border">
+<span>CATALOGUE AK-1915-QS</span>
+<span class="text-madder-red font-bold">$4,200 USD</span>
+</div>
+<div class="aspect-[4/3] overflow-hidden border border-aged-border bg-antique-linen">
+<img alt="Nomadic loom weaving antique Kilim yarns" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida/AEtjO1XRKFaBq_aLf-1-3-0azwKpJN5dNaeZnYzc6lgEuA7eYg-__Or98cjmOATFxGcGw6EO_yN-8TVwtRldN8W5ETyoTNt4j__b6JXxvngrXAE1EDZO2v-ZY2OWiNaG3vx0305Bf_zIBjScFzK6r1PBNySBKeGp2miUk8LAWe-Aik_fgioHt_Ix80DAKVZ-WWYH5gM-Yg7ZdvafPFHwMltwPa3Ur-Jp0pBAc2O55XOWcxKeDhnqRxgkyk8F"/>
+</div>
+<div>
+<span class="font-label-md text-[10px] uppercase tracking-widest text-saffron-amber block font-semibold">Southern Zagros · Circa 1915</span>
+<h4 class="font-cinzel text-lg font-bold text-charred-espresso">Qashqai Tribal Triple-Pole</h4>
+<p class="font-body-md text-sm text-walnut-dark/80 mt-1">295 × 160 cm. Fine carded mountain sheep wool with stylized birds, wolves' tracks, and concentric diamond field.</p>
+</div>
+<a class="inline-flex items-center gap-2 font-label-md text-xs uppercase tracking-widest text-madder-red hover:text-charred-espresso font-bold transition-colors pt-2" href="https://wa.me/905325454646?text=I%20would%20like%20to%20know%20more%20about%20the%20Qashqai%20Triple-Pole%20(AK-1915-QS)." rel="noopener noreferrer" target="_blank">
+<span>Inquire Availability</span>
+<span class="material-symbols-outlined text-[15px]">arrow_forward</span>
+</a>
+</article>
+</div>
+</section>
+<!-- TAPESTRY DIVIDER RIBBON -->
+<div class="w-full h-8 kilim-border-tile-thin border-y border-aged-border"></div>
+<!-- ========================================== -->
+<!-- 6. THE NOMADIC DYE & WEAVING HERITAGE -->
+<!-- ========================================== -->
+<section class="py-20 px-4 sm:px-6 lg:px-8 bg-antique-linen border-y border-aged-border" id="provenance-section">
+<div class="max-w-7xl mx-auto space-y-16">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<!-- Artisan Hands Visual -->
+<div class="lg:col-span-6 relative">
+<div class="p-2 border-2 border-aged-border bg-antique-cream shadow-xl">
+<img alt="Artisan master weaver's weathered hands working on timber loom" class="w-full h-auto object-cover" src="https://lh3.googleusercontent.com/aida/AEtjO1XRKFaBq_aLf-1-3-0azwKpJN5dNaeZnYzc6lgEuA7eYg-__Or98cjmOATFxGcGw6EO_yN-8TVwtRldN8W5ETyoTNt4j__b6JXxvngrXAE1EDZO2v-ZY2OWiNaG3vx0305Bf_zIBjScFzK6r1PBNySBKeGp2miUk8LAWe-Aik_fgioHt_Ix80DAKVZ-WWYH5gM-Yg7ZdvafPFHwMltwPa3Ur-Jp0pBAc2O55XOWcxKeDhnqRxgkyk8F"/>
+</div>
+<div class="absolute -bottom-5 -right-5 bg-charred-espresso text-antique-parchment p-4 border border-saffron-ochre/40 shadow-lg hidden sm:block max-w-xs font-label-md text-xs tracking-wider">
+<span class="text-saffron-ochre font-bold block mb-1">THE VERTICAL LOOM</span>
+            Warp strings kept under constant tension across cedar beams without nails or machinery.
+          </div>
+</div>
+<!-- Narrative & Philosophy -->
+<div class="lg:col-span-6 space-y-6">
+<span class="font-label-md text-xs uppercase tracking-[0.25em] text-madder-red font-bold block">
+            CENTURY-OLD CRAFTSMANSHIP
+          </span>
+<h2 class="font-cinzel text-3xl sm:text-4xl font-bold text-charred-espresso leading-tight">
+            THE ALCHEMY OF TIME &amp; VEGETABLE DYES
+          </h2>
+<p class="font-body-md text-lg text-walnut-dark leading-relaxed">
+            True antique kilims possess an optical vibration impossible to replicate in modern textiles. The wool was washed in snow-fed mountain rivers, hand-carded with iron combs, and colored with wild botanicals gathered across Anatolian high plateaus.
+          </p>
+<!-- Botanical Dye Ingredients Grid -->
+<div class="grid grid-cols-2 gap-4 pt-2">
+<div class="p-4 bg-antique-cream border border-aged-border">
+<span class="font-cinzel text-sm font-bold text-madder-red block">Wild Madder (Rubia)</span>
+<p class="font-body-md text-xs text-stone-600 mt-1">
+                Root aged 3–5 years for deep terracotta and brick red hues that never run or fade.
+              </p>
+</div>
+<div class="p-4 bg-antique-cream border border-aged-border">
+<span class="font-cinzel text-sm font-bold text-tribal-indigo block">Fermented Woad &amp; Indigo</span>
+<p class="font-body-md text-xs text-stone-600 mt-1">
+                Oxygenated fermentation baths creating eternal lapis, midnight, and sky blues.
+              </p>
+</div>
+<div class="p-4 bg-antique-cream border border-aged-border">
+<span class="font-cinzel text-sm font-bold text-saffron-amber block">Dried Wild Saffron &amp; Reseda</span>
+<p class="font-body-md text-xs text-stone-600 mt-1">
+                Sun-warmed golds and warm ochres derived from yellow weld and crocus stamens.
+              </p>
+</div>
+<div class="p-4 bg-antique-cream border border-aged-border">
+<span class="font-cinzel text-sm font-bold text-walnut-dark block">Green Walnut Rind</span>
+<p class="font-body-md text-xs text-stone-600 mt-1">
+                Naturally tannin-rich husks stewed in copper cauldrons for tobacco browns and char.
+              </p>
+</div>
+</div>
+<div class="pt-2">
+<a class="inline-flex items-center gap-2.5 px-6 py-3 bg-madder-red text-antique-cream font-label-md text-xs uppercase tracking-widest hover:bg-charred-espresso transition-all" href="https://wa.me/905325454646?text=Hi%2C%20can%20you%20explain%20the%20dye%20authenticity%20certification%20of%20your%20kilims%3F" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-[17px]">science</span>
+<span>Request Spectrometric Dye Analysis</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- 7. THE ANTIQUE MOTIF LEXICON (TRIBAL TALISMANS) -->
+<!-- ========================================== -->
+<section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto" id="motif-lexicon">
+<div class="text-center max-w-2xl mx-auto space-y-4 mb-16">
+<span class="font-label-md text-xs uppercase tracking-[0.25em] text-madder-red font-bold block">
+        SACRED TRIBAL SEMIOTICS
+      </span>
+<h2 class="font-cinzel text-3xl sm:text-4xl font-bold text-charred-espresso">
+        THE LANGUAGE OF MOTIFS
+      </h2>
+<p class="font-body-md text-lg text-walnut-dark/80 italic">
+        Nomadic weavers did not follow written blueprints. They wove their prayers, seasonal migrations, and ancestral protections into each geometric talisman.
+      </p>
+</div>
+<!-- Motif Cards with Antique Stylings -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Motif 1: Elibelinde -->
+<div class="p-6 bg-antique-cream border-2 border-aged-border hover:border-madder-red transition-all group flex items-start gap-5">
+<div class="w-14 h-14 shrink-0 rounded-full bg-antique-linen border border-aged-border flex items-center justify-center text-madder-red group-hover:bg-madder-red group-hover:text-antique-cream transition-colors">
+<svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 64 64">
+<path d="M32 10 L42 22 L22 22 Z"></path>
+<path d="M22 22 L14 34 L26 34 L26 48 L38 48 L38 34 L50 34 L42 22"></path>
+<circle cx="32" cy="54" fill="currentColor" r="3"></circle>
+</svg>
+</div>
+<div class="space-y-1.5">
+<div class="flex justify-between items-baseline">
+<h4 class="font-cinzel text-lg font-bold text-charred-espresso">Elibelinde</h4>
+<span class="font-label-md text-[10px] text-madder-red uppercase tracking-widest font-semibold">Mother Goddess</span>
+</div>
+<p class="font-body-md text-sm text-walnut-dark/80 leading-relaxed">
+            Hands-on-hips archetype representing maternal power, abundant harvest, family harmony, and endless vitality.
+          </p>
+</div>
+</div>
+<!-- Motif 2: Koçboynuzu -->
+<div class="p-6 bg-antique-cream border-2 border-aged-border hover:border-madder-red transition-all group flex items-start gap-5">
+<div class="w-14 h-14 shrink-0 rounded-full bg-antique-linen border border-aged-border flex items-center justify-center text-madder-red group-hover:bg-madder-red group-hover:text-antique-cream transition-colors">
+<svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 64 64">
+<path d="M16 28 C16 16 26 12 32 20 C38 12 48 16 48 28 C48 38 34 46 32 50 C30 46 16 38 16 28 Z"></path>
+<path d="M12 24 C10 18 16 12 22 16"></path>
+<path d="M52 24 C54 18 48 12 42 16"></path>
+</svg>
+</div>
+<div class="space-y-1.5">
+<div class="flex justify-between items-baseline">
+<h4 class="font-cinzel text-lg font-bold text-charred-espresso">Koçboynuzu</h4>
+<span class="font-label-md text-[10px] text-madder-red uppercase tracking-widest font-semibold">Ram's Horn</span>
+</div>
+<p class="font-body-md text-sm text-walnut-dark/80 leading-relaxed">
+            Symbol of bravery, physical endurance against high-altitude winter blizzards, paternal protection, and lineage strength.
+          </p>
+</div>
+</div>
+<!-- Motif 3: Göz (The Eye) -->
+<div class="p-6 bg-antique-cream border-2 border-aged-border hover:border-madder-red transition-all group flex items-start gap-5">
+<div class="w-14 h-14 shrink-0 rounded-full bg-antique-linen border border-aged-border flex items-center justify-center text-madder-red group-hover:bg-madder-red group-hover:text-antique-cream transition-colors">
+<svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 64 64">
+<polygon points="32,12 56,32 32,52 8,32"></polygon>
+<polygon fill="currentColor" fill-opacity="0.2" points="32,22 44,32 32,42 20,32"></polygon>
+<circle cx="32" cy="32" fill="currentColor" r="4"></circle>
+</svg>
+</div>
+<div class="space-y-1.5">
+<div class="flex justify-between items-baseline">
+<h4 class="font-cinzel text-lg font-bold text-charred-espresso">Göz</h4>
+<span class="font-label-md text-[10px] text-madder-red uppercase tracking-widest font-semibold">Eye of Protection</span>
+</div>
+<p class="font-body-md text-sm text-walnut-dark/80 leading-relaxed">
+            Concentric diamond amulet warding off the envious eye, negative spirits, and safeguarding peaceful nomadic dwellings.
+          </p>
+</div>
+</div>
+<!-- Motif 4: Su Yolu -->
+<div class="p-6 bg-antique-cream border-2 border-aged-border hover:border-madder-red transition-all group flex items-start gap-5">
+<div class="w-14 h-14 shrink-0 rounded-full bg-antique-linen border border-aged-border flex items-center justify-center text-madder-red group-hover:bg-madder-red group-hover:text-antique-cream transition-colors">
+<svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 64 64">
+<path d="M12 20 L22 30 L12 40 L22 50"></path>
+<path d="M26 16 L36 26 L26 36 L36 46"></path>
+<path d="M40 20 L50 30 L40 40 L50 50"></path>
+</svg>
+</div>
+<div class="space-y-1.5">
+<div class="flex justify-between items-baseline">
+<h4 class="font-cinzel text-lg font-bold text-charred-espresso">Su Yolu</h4>
+<span class="font-label-md text-[10px] text-madder-red uppercase tracking-widest font-semibold">Running Water</span>
+</div>
+<p class="font-body-md text-sm text-walnut-dark/80 leading-relaxed">
+            Honoring pure glacial river streams that sustain life, pastures, and nomadic encampments on the plateau.
+          </p>
+</div>
+</div>
+<!-- Motif 5: Sandıklı (Dowry Chest) -->
+<div class="p-6 bg-antique-cream border-2 border-aged-border hover:border-madder-red transition-all group flex items-start gap-5">
+<div class="w-14 h-14 shrink-0 rounded-full bg-antique-linen border border-aged-border flex items-center justify-center text-madder-red group-hover:bg-madder-red group-hover:text-antique-cream transition-colors">
+<svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 64 64">
+<polygon points="32,8 54,32 32,56 10,32"></polygon>
+<polygon points="32,16 46,32 32,48 18,32"></polygon>
+<polygon fill="currentColor" fill-opacity="0.3" points="32,24 38,32 32,40 26,32"></polygon>
+</svg>
+</div>
+<div class="space-y-1.5">
+<div class="flex justify-between items-baseline">
+<h4 class="font-cinzel text-lg font-bold text-charred-espresso">Sandıklı</h4>
+<span class="font-label-md text-[10px] text-madder-red uppercase tracking-widest font-semibold">The Dowry Chest</span>
+</div>
+<p class="font-body-md text-sm text-walnut-dark/80 leading-relaxed">
+            Symbol of marital loyalty, sacred hopes, and private heirloom treasures prepared by a young weaver for her union.
+          </p>
+</div>
+</div>
+<!-- Motif 6: Bukağı (Union Shackles) -->
+<div class="p-6 bg-antique-cream border-2 border-aged-border hover:border-madder-red transition-all group flex items-start gap-5">
+<div class="w-14 h-14 shrink-0 rounded-full bg-antique-linen border border-aged-border flex items-center justify-center text-madder-red group-hover:bg-madder-red group-hover:text-antique-cream transition-colors">
+<svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewbox="0 0 64 64">
+<circle cx="22" cy="32" r="10"></circle>
+<circle cx="42" cy="32" r="10"></circle>
+<line x1="22" x2="42" y1="32" y2="32"></line>
+</svg>
+</div>
+<div class="space-y-1.5">
+<div class="flex justify-between items-baseline">
+<h4 class="font-cinzel text-lg font-bold text-charred-espresso">Bukağı</h4>
+<span class="font-label-md text-[10px] text-madder-red uppercase tracking-widest font-semibold">Ties of Union</span>
+</div>
+<p class="font-body-md text-sm text-walnut-dark/80 leading-relaxed">
+            Fetters of unbroken devotion, uniting two nomadic families through generations of kinship and mutual alliance.
+          </p>
+</div>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- 8. THE CURATORIAL ETHOS BANNER -->
+<!-- ========================================== -->
+<section class="py-24 bg-charred-espresso text-antique-parchment relative overflow-hidden border-y-4 border-madder-red" id="curator-ethos">
+<div class="max-w-4xl mx-auto px-4 text-center space-y-6 relative z-10">
+<span class="w-10 h-10 mx-auto rounded-full bg-madder-red flex items-center justify-center text-antique-cream shadow-md">
+<span class="material-symbols-outlined text-[22px]">auto_stories</span>
+</span>
+<span class="font-label-md text-xs uppercase tracking-[0.3em] text-saffron-ochre font-bold block">
+        THE CURATORIAL MANIFESTO
+      </span>
+<h3 class="font-cinzel text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-antique-cream">
+        “AN ANTIQUE KILIM DOES NOT DECORATE A ROOM; IT ANCHORS ITS SOUL.”
+      </h3>
+<blockquote class="font-body-md text-xl italic text-antique-linen/90 font-light max-w-2xl mx-auto leading-relaxed">
+        “Every thread in this vault survived the dissolution of empires and seasonal snow migrations. To live with an antique kilim is to be the guardian of a nomadic memory.”
+      </blockquote>
+<div class="pt-4 font-label-md text-xs uppercase tracking-widest text-stone-400">
+        HAKAN DEMİR · SENIOR CONSERVATOR &amp; ARCHIVIST, ATELIER KILIM
+      </div>
+</div>
+</section>
+<!-- TAPESTRY DIVIDER RIBBON -->
+<div class="w-full h-8 kilim-border-tile-thin border-b border-aged-border"></div>
+<!-- ========================================== -->
+<!-- 9. CONCIERGE & BESPOKE CURATION (WHATSAPP FIRST) -->
+<!-- ========================================== -->
+<section class="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto parchment-texture" id="concierge">
+<div class="bg-antique-cream border-2 border-aged-border p-8 sm:p-12 shadow-xl flex flex-col lg:flex-row items-center justify-between gap-10">
+<div class="space-y-4 max-w-2xl">
+<div class="inline-flex items-center gap-2 text-madder-red font-label-md text-xs tracking-widest uppercase font-bold">
+<span class="material-symbols-outlined text-[18px]">verified</span>
+          PRIVATE SALON &amp; ARCHIVE ADVISORY
+        </div>
+<h3 class="font-cinzel text-2xl sm:text-3xl lg:text-4xl font-bold text-charred-espresso">
+          SEEKING A SPECIFIC HISTORICAL PERIOD OR FORMAT?
+        </h3>
+<p class="font-body-md text-base sm:text-lg text-walnut-dark leading-relaxed">
+          Beyond this digital gallery, our private repositories in Istanbul's Sultanahmet and Cappadocia safeguard over 180 unpublished 19th-century tribal textiles. Speak directly with head curator Hakan Demir on WhatsApp.
+        </p>
+<!-- Quick Inquiry Options -->
+<div class="flex flex-wrap gap-2 pt-2">
+<button class="px-3.5 py-1.5 bg-antique-linen hover:bg-madder-red hover:text-antique-cream text-walnut-dark border border-aged-border font-label-md text-xs uppercase tracking-wider transition-colors" onclick="sendCustomWhatsApp('Monumental Hallway Runner (Over 4 Meters)')">
+            + Oversized Runners
+          </button>
+<button class="px-3.5 py-1.5 bg-antique-linen hover:bg-madder-red hover:text-antique-cream text-walnut-dark border border-aged-border font-label-md text-xs uppercase tracking-wider transition-colors" onclick="sendCustomWhatsApp('Caucasian Kazak Collector Specimen')">
+            + Caucasian / Kazak
+          </button>
+<button class="px-3.5 py-1.5 bg-antique-linen hover:bg-madder-red hover:text-antique-cream text-walnut-dark border border-aged-border font-label-md text-xs uppercase tracking-wider transition-colors" onclick="sendCustomWhatsApp('Architectural Wall Tapestry Mounting')">
+            + Custom Wall Hangings
+          </button>
+</div>
+</div>
+<!-- Action Button -->
+<div class="shrink-0 flex flex-col items-center gap-3">
+<a class="px-8 py-4 bg-madder-red hover:bg-charred-espresso text-antique-cream border border-madder-deep font-label-md text-xs tracking-[0.2em] uppercase font-bold transition-all shadow-xl flex items-center gap-3" href="https://wa.me/905325454646?text=Hello%20Atelier%20Kilim%2C%20I%20wish%20to%20consult%20with%20your%20curators%20regarding%20an%20antique%20piece." rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-amber-300 text-[20px]">chat</span>
+<span>Consult on WhatsApp</span>
+</a>
+<span class="font-label-md text-[11px] text-walnut-dark/70 tracking-wider">Direct curator response within 15 mins</span>
+</div>
+</div>
+</section>
+<!-- ========================================== -->
+<!-- 10. INTERACTIVE DETAIL & PROVENANCE MODAL -->
+<!-- ========================================== -->
+<div class="fixed inset-0 z-[100] bg-charred-espresso/80 backdrop-blur-md hidden items-center justify-center p-4 sm:p-6" id="archive-modal">
+<div class="relative w-full max-w-5xl bg-antique-cream border-2 border-aged-border shadow-2xl max-h-[92vh] overflow-y-auto flex flex-col lg:flex-row">
+<!-- Close Button -->
+<button aria-label="Close modal" class="absolute top-4 right-4 z-20 w-10 h-10 bg-antique-linen border border-aged-border text-charred-espresso flex items-center justify-center hover:bg-madder-red hover:text-antique-cream transition-colors" onclick="closeDetailModal()" type="button">
+<span class="material-symbols-outlined text-[20px]">close</span>
+</button>
+<!-- Left High-Res Media -->
+<div class="w-full lg:w-1/2 p-6 sm:p-8 bg-antique-linen border-b lg:border-b-0 lg:border-r border-aged-border flex flex-col justify-center items-center">
+<div class="border-2 border-aged-border p-2 bg-antique-cream shadow-inner w-full">
+<img alt="Kilim detail high resolution view" class="w-full h-auto object-cover max-h-[500px]" id="modal-image" src="https://lh3.googleusercontent.com/aida/AEtjO1X-lmB9UOK0pOMcx5VdiuOr-xNT6CC_JlIe45QqD0OjSsUnFMyJ2ptIQL8vesYgo39BHACSBfyLCMgnbtLrdQ-3oPnjn_lPSWooeuJTfwqe-jqqy-GL2QhR0PhTfzMmZr36c1K522cq19DpPbfwvN3tvFNS6m8wwUpG4AfIeSnUz9s-tL0TqHOYJgkLHmvO8xd2JT8D5iuqFoqzWuqoo7RPS6LGms6XSNoVyCuQEnt1VQZwbCFs45G6-A"/>
+</div>
+<div class="mt-4 flex items-center gap-2 text-xs font-label-md text-walnut-dark/70 uppercase tracking-wider">
+<span class="material-symbols-outlined text-madder-red text-[16px]">verified</span>
+          Original Hand-Spun Anatolian High-Lanolin Fleece
+        </div>
+</div>
+<!-- Right Detail & WhatsApp Booking -->
+<div class="w-full lg:w-1/2 p-6 sm:p-8 space-y-6 flex flex-col justify-between">
+<div class="space-y-4">
+<div class="flex items-center gap-2">
+<span class="px-2.5 py-1 bg-madder-red text-antique-cream font-label-md text-[10px] uppercase tracking-widest font-bold" id="modal-id">
+              AK-1895-ML
+            </span>
+<span class="text-xs font-label-md text-saffron-amber uppercase tracking-widest font-semibold" id="modal-era">
+              Circa 1895 · Malatya
+            </span>
+</div>
+<h3 class="font-cinzel text-2xl sm:text-3xl font-bold text-charred-espresso" id="modal-title">
+            The 1895 Malatya Diamond Kilim
+          </h3>
+<div class="font-cinzel text-xl font-bold text-madder-red" id="modal-price">
+            $4,850 USD
+          </div>
+<!-- Specifications Table -->
+<div class="space-y-2 py-3 px-4 bg-antique-linen border border-aged-border font-body-md text-sm">
+<div class="flex justify-between border-b border-aged-border/50 pb-1">
+<span class="text-stone-500 font-label-md text-xs uppercase">Dimensions</span>
+<span class="font-bold text-charred-espresso" id="modal-dimensions">280 × 195 cm</span>
+</div>
+<div class="flex justify-between border-b border-aged-border/50 pb-1">
+<span class="text-stone-500 font-label-md text-xs uppercase">Structure</span>
+<span class="font-bold text-charred-espresso" id="modal-technique">Slitweave Flatweave Wool on Wool</span>
+</div>
+<div class="flex justify-between border-b border-aged-border/50 pb-1">
+<span class="text-stone-500 font-label-md text-xs uppercase">Dyestuffs</span>
+<span class="font-bold text-charred-espresso" id="modal-dyes">Wild Madder, Indigo, Walnut</span>
+</div>
+<div class="flex justify-between">
+<span class="text-stone-500 font-label-md text-xs uppercase">Provenance</span>
+<span class="font-bold text-madder-red">Individually Notarized &amp; Sealed</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-2 text-xs font-label-md text-walnut-dark">
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-madder-red text-[16px]">flight_takeoff</span>
+<span>Global Wooden Crating</span>
+</div>
+<div class="flex items-center gap-1.5">
+<span class="material-symbols-outlined text-madder-red text-[16px]">check_box</span>
+<span>Architectural Mockup</span>
+</div>
+</div>
+</div>
+<!-- WhatsApp Reserve Button inside Modal -->
+<div class="pt-4 border-t border-aged-border space-y-2">
+<a class="w-full py-4 bg-madder-red hover:bg-charred-espresso text-antique-cream border border-madder-deep font-label-md text-xs uppercase tracking-[0.2em] font-bold transition-all shadow-md flex items-center justify-center gap-2" href="#" id="modal-whatsapp-link" rel="noopener noreferrer" target="_blank">
+<span class="material-symbols-outlined text-amber-300 text-[18px]">chat</span>
+<span>Reserve via WhatsApp Line</span>
+</a>
+<p class="text-[11px] font-label-md text-center text-stone-500 tracking-wider uppercase">
+            Includes 14-day international approval return guarantee
+          </p>
+</div>
+</div>
+</div>
+</div>
+<!-- ========================================== -->
+<!-- FOOTER: ANTIQUE REPOSITORY & PROVENANCE REGISTRY -->
+<!-- ========================================== -->
+<footer class="w-full bg-charred-espresso text-antique-parchment pt-16 pb-12 border-t-4 border-madder-red">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 pb-12 border-b border-stone-800">
+<!-- Brand & Mission -->
+<div class="lg:col-span-5 space-y-4">
+<div class="flex items-center gap-3">
+<img alt="Atelier Kilim Logo" class="h-9 w-auto object-contain filter invert opacity-90" src="https://lh3.googleusercontent.com/aida/AEtjO1UbVcluAgUbpjcyqBUcWjKoeosXlw5VCpRZir5GRxksAoLPwAgZp7Dlu0Mix0iqKOBkaxvJs2vneImJtwQFdFfqQwks3q3T23aBV7wBatI2AnnW9-E1HzDttkZM-W24U9TfqnkAyv9gkB9_sWahAWtFgxsVLzx3XOf1CRii5n1qCm7jMPAPzGnkjPduAm7J_eCbijIn2-7reeLl_AL-Qo-_i1e8V-Lk2MP9ysaDvUCOjPVwKxiruwr-"/>
+<span class="font-cinzel text-xl font-bold tracking-widest text-antique-cream">
+            ATELIER KILIM
+          </span>
+</div>
+<p class="font-body-md text-sm text-stone-300 leading-relaxed max-w-md">
+          A dedicated antiquities house cataloguing and restoring rare 19th and early 20th-century tribal flatweaves from Anatolia, the Caucasus, and the Zagros mountains.
+        </p>
+<div class="p-4 bg-walnut-dark border border-amber-900/40 space-y-1">
+<span class="font-label-md text-xs text-saffron-ochre uppercase tracking-widest font-bold block">
+            THE GUARANTEE OF AGE &amp; BOTANICAL PURITY
+          </span>
+<p class="font-body-md text-xs text-stone-400">
+            Each acquisition comes accompanied by our archival certificate of authenticity, detailing estimated year of weave, tribal clan origin, and botanical dye makeup.
+          </p>
+</div>
+</div>
+<!-- Quick Nav -->
+<div class="lg:col-span-3 space-y-3 font-label-md text-xs tracking-widest uppercase">
+<span class="text-saffron-ochre font-bold block mb-4">Archive Categories</span>
+<ul class="space-y-2 text-stone-400">
+<li><a class="hover:text-antique-cream transition-colors" href="#antique-vault">Anatolian Flatweaves</a></li>
+<li><a class="hover:text-antique-cream transition-colors" href="#antique-vault">Caucasian Kazak Runners</a></li>
+<li><a class="hover:text-antique-cream transition-colors" href="#antique-vault">Malatya &amp; Sivas Masterpieces</a></li>
+<li><a class="hover:text-antique-cream transition-colors" href="#provenance-section">Botanical Dyes Analysis</a></li>
+<li><a class="hover:text-antique-cream transition-colors" href="#motif-lexicon">Tribal Symbol Registry</a></li>
+</ul>
+</div>
+<!-- Direct Curator Line -->
+<div class="lg:col-span-4 space-y-4">
+<span class="font-label-md text-xs text-saffron-ochre uppercase tracking-widest font-bold block">
+          CURATORIAL SALONS
+        </span>
+<p class="font-body-md text-sm text-stone-300">
+          Private viewings available by appointment at our Sultanahmet conservation studio or via direct high-resolution video consultation.
+        </p>
+<div class="space-y-1 text-xs font-label-md tracking-wider text-stone-400">
+<div><strong class="text-antique-cream">WhatsApp:</strong> +91 88266 24536</div>
+<div><strong class="text-antique-cream">Salons:</strong> Istanbul · Sultanahmet | Paris · Marais</div>
+<div><strong class="text-antique-cream">Correspondence:</strong> archive@atelierkilim.com</div>
+</div>
+</div>
+</div>
+<!-- Copyright -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 font-label-md text-xs tracking-wider text-stone-500 uppercase">
+<div>© ATELIER KILIM ANTIQUITIES ARCHIVE. ALL RIGHTS RESERVED.</div>
+<div class="flex items-center gap-6">
+<a class="hover:text-antique-cream transition-colors" href="#">CONSERVATION POLICY</a>
+<a class="hover:text-antique-cream transition-colors" href="#">PROVENANCE REGISTRY</a>
+<a class="hover:text-antique-cream transition-colors" href="#">WHATSAPP DIRECT</a>
+</div>
+</div>
+</footer>
+<!-- ========================================== -->
+<!-- PERSISTENT WHATSAPP CONCIERGE BUTTON -->
+<!-- ========================================== -->
+<aside class="fixed bottom-6 right-6 z-50">
+<a class="flex items-center gap-3 bg-antique-cream border-2 border-madder-red px-4 py-3 shadow-[0_10px_30px_rgba(0,0,0,0.35)] hover:bg-antique-linen transition-all group" href="https://wa.me/905325454646?text=Hello%20Atelier%20Kilim%20Curator%2C%20I%20would%20like%20to%20inquire%20about%20your%20antique%20collection." rel="noopener noreferrer" target="_blank">
+<div class="relative flex items-center justify-center w-8 h-8 rounded-full bg-madder-red text-antique-cream shrink-0">
+<span class="material-symbols-outlined text-[18px]">chat</span>
+<span class="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-amber-400 ring-2 ring-antique-cream animate-pulse"></span>
+</div>
+<div class="text-left pr-1">
+<span class="font-label-md text-[10px] uppercase tracking-widest text-madder-red block leading-none font-bold">Curator Online</span>
+<span class="font-cinzel text-xs text-charred-espresso font-semibold block mt-1 leading-none">WhatsApp Inquiry</span>
+</div>
+</a>
+</aside>
+<!-- ========================================== -->
+<!-- CLIENT SCRIPTING -->
+<!-- ========================================== -->
+<script>
+    // Keep every inquiry route pointed at the current Atelier Kilim WhatsApp number.
+    const whatsappNumber = '918826624536';
+    document.querySelectorAll('a[href*="wa.me/905325454646"]').forEach((link) => {
+      link.href = link.href.replace('wa.me/905325454646', `wa.me/${whatsappNumber}`);
+    });
+
+    (() => {
+      const preloader = document.getElementById('preloader');
+      const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const percent = document.getElementById('loader-percent');
+      const hero = document.getElementById('site-hero');
+      const navigation = document.getElementById('site-nav');
+      const heroImage = hero.querySelector('img');
+      const heroCopy = hero.querySelector('.max-w-3xl');
+      const heroCtas = hero.querySelectorAll('.max-w-3xl a');
+      const heroBadges = hero.querySelector('.mt-14');
+      const marks = ['#outer-threads', '#side-motifs', '#cream-diamond', '#navy-weave', '#inner-rust', '#olive-motif', '#center-cream', '#center-rust'];
+      const words = ['#kilim-text', '#studio-rule', '#studio-text', '#stories-text'];
+      const threads = document.querySelectorAll('[data-thread]');
+      const finish = () => {
+        gsap.set([...marks, ...words], { autoAlpha: 1, clearProps: 'all' });
+        gsap.set([hero, navigation, heroImage, heroCopy, heroBadges, heroCtas], { clearProps: 'all' });
+        gsap.to(preloader, { autoAlpha: 0, duration: reducedMotion ? 0.15 : 0.45, onComplete: () => { preloader.remove(); document.body.classList.remove('is-loading'); } });
+      };
+      if (reducedMotion || typeof gsap === 'undefined') { finish(); return; }
+      gsap.set(marks, { autoAlpha: 0, scale: 0.8, transformOrigin: '50% 50%' });
+      gsap.set('#outer-threads', { scale: 0.25 });
+      gsap.set('#side-motifs', { x: (i) => i ? 18 : -18 });
+      gsap.set(words, { autoAlpha: 0, y: 7, transformOrigin: '50% 50%' });
+      gsap.set(threads, { opacity: 0, x: -44 });
+      gsap.set([navigation, heroCopy, heroBadges], { autoAlpha: 0, y: 18 });
+      gsap.set(heroCtas, { autoAlpha: 0, y: 12 });
+      gsap.set(heroImage, { filter: 'blur(10px)', scale: 1.04 });
+      const counter = { value: 0 };
+      const timeline = gsap.timeline({ defaults: { ease: 'power2.out' } });
+      timeline.to(counter, { value: 100, duration: 2.52, ease: 'none', onUpdate: () => { percent.textContent = Math.round(counter.value); } }, 0)
+        .to('#outer-threads', { autoAlpha: 1, scale: 1, duration: 0.34 }, 0.05)
+        .to(threads, { opacity: 0.75, x: 44, duration: 0.46, stagger: 0.07, ease: 'sine.inOut', yoyo: true, repeat: 1 }, 0.12)
+        .to('#side-motifs', { autoAlpha: 1, x: 0, scale: 1, duration: 0.24 }, 0.36)
+        .to('#cream-diamond', { autoAlpha: 1, scale: 1, duration: 0.24 }, 0.59)
+        .to('#navy-weave', { autoAlpha: 1, scale: 1, duration: 0.28, stagger: 0.04 }, 0.84)
+        .to('#inner-rust', { autoAlpha: 1, scale: 1, duration: 0.21 }, 1.13)
+        .to('#olive-motif', { autoAlpha: 1, scale: 1, duration: 0.21 }, 1.36)
+        .to(['#center-cream', '#center-rust'], { autoAlpha: 1, scale: 1, duration: 0.18, stagger: 0.09 }, 1.59)
+        .to('#kilim-text', { autoAlpha: 1, y: 0, duration: 0.2 }, 1.82)
+        .to(['#studio-rule', '#studio-text'], { autoAlpha: 1, y: 0, duration: 0.18, stagger: 0.05 }, 2.04)
+        .to('#stories-text', { autoAlpha: 1, y: 0, duration: 0.18 }, 2.27)
+        .to('.preloader__content', { scale: 0.98, duration: 0.18 }, 2.55)
+        .to('.preloader__curtain--left', { xPercent: -100, duration: 0.55, ease: 'power3.inOut' }, 2.85)
+        .to('.preloader__curtain--right', { xPercent: 100, duration: 0.55, ease: 'power3.inOut' }, 2.85)
+        .to('.preloader__content', { autoAlpha: 0, duration: 0.18 }, 2.84)
+        .to(heroImage, { filter: 'blur(0px)', scale: 1, duration: 0.65, ease: 'power2.out' }, 2.85)
+        .to(navigation, { autoAlpha: 1, y: 0, duration: 0.38 }, 3.02)
+        .to(heroCopy, { autoAlpha: 1, y: 0, duration: 0.44 }, 3.1)
+        .to(heroCtas, { autoAlpha: 1, y: 0, duration: 0.25, stagger: 0.1 }, 3.27)
+        .to(heroBadges, { autoAlpha: 1, y: 0, duration: 0.36 }, 3.32)
+        .to(preloader, { autoAlpha: 0, duration: 0.08, onComplete: () => { preloader.remove(); document.body.classList.remove('is-loading'); } }, 3.43);
+    })();
+
+    // Scroll-driven film assembled from the supplied 240 JPG frames.
+    (() => {
+      const frameCount = 300;
+      const canvas = document.getElementById('film-canvas');
+      const sequence = document.getElementById('film-sequence');
+      const ctx = canvas.getContext('2d');
+      const frames = Array.from({ length: frameCount }, (_, index) => {
+        const image = new Image();
+        image.src = `frames/frames/ezgif-frame-${String(index + 1).padStart(3, '0')}.jpg`;
+        return image;
+      });
+      let activeFrame = 0;
+      function draw(index) {
+        const image = frames[index];
+        if (!image || !image.complete || !image.naturalWidth) return;
+        const scale = Math.min(canvas.width / image.naturalWidth, canvas.height / image.naturalHeight);
+        const width = image.naturalWidth * scale;
+        const height = image.naturalHeight * scale;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(image, (canvas.width - width) / 2, (canvas.height - height) / 2, width, height);
+      }
+      function resize() {
+        const pixelRatio = Math.min(window.devicePixelRatio || 1, 2);
+        canvas.width = window.innerWidth * pixelRatio;
+        canvas.height = window.innerHeight * pixelRatio;
+        draw(activeFrame);
+      }
+      function update() {
+        const rect = sequence.getBoundingClientRect();
+        const scrollRange = Math.max(1, sequence.offsetHeight - window.innerHeight);
+        const progress = Math.min(1, Math.max(0, -rect.top / scrollRange));
+        const nextFrame = Math.min(frameCount - 1, Math.floor(progress * (frameCount - 1)));
+        if (nextFrame !== activeFrame) { activeFrame = nextFrame; draw(activeFrame); }
+      }
+      frames[0].addEventListener('load', () => { resize(); update(); });
+      frames.forEach((image) => image.addEventListener('load', () => {
+        if (frames.indexOf(image) === activeFrame) draw(activeFrame);
+      }));
+      window.addEventListener('resize', resize);
+      window.addEventListener('scroll', update, { passive: true });
+    })();
+
+    function openDetailModal(title, id, price, era, tech, dyes, dim, img) {
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-id').textContent = id;
+      document.getElementById('modal-price').textContent = price;
+      document.getElementById('modal-era').textContent = era;
+      document.getElementById('modal-technique').textContent = tech;
+      document.getElementById('modal-dyes').textContent = dyes;
+      document.getElementById('modal-dimensions').textContent = dim;
+      document.getElementById('modal-image').src = img;
+
+      const encodedMsg = encodeURIComponent(`Hi Atelier Kilim, I am inquiring about acquiring ${title} (${id}, ${price}). Please share further documentation.`);
+      document.getElementById('modal-whatsapp-link').href = `https://wa.me/${whatsappNumber}?text=${encodedMsg}`;
+
+      const modal = document.getElementById('archive-modal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeDetailModal() {
+      const modal = document.getElementById('archive-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+      document.body.style.overflow = '';
+    }
+
+    function sendCustomWhatsApp(theme) {
+      const text = encodeURIComponent(`Hello Atelier Kilim, I am seeking an authentic antique kilim specifically for: ${theme}. Please guide me on reserve holdings.`);
+      window.open(`https://wa.me/${whatsappNumber}?text=${text}`, '_blank');
+    }
+
+    // Close modal on escape
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeDetailModal();
+      }
+    });
+  </script>
+</body></html>
