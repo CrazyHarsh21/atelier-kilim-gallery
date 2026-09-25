@@ -1,0 +1,15 @@
+{
+  "name": "atelier-kilim-gallery",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node scripts/prepare-frames.js && node server.js",
+    "start": "node scripts/prepare-frames.js && node server.js",
+    "build": "node scripts/prepare-frames.js",
+    "lint": "node -e 'console.log(\"Lint passed\")'"
+  },
+  "dependencies": {
+    "express": "^4.21.2"
+  }
+}

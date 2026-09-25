@@ -1,0 +1,8 @@
+{
+  "name": "Atelier Kilim Gallery",
+  "description": "Antique Archive & Antiquities · 19th & Early 20th Century Flatweaves",
+  "permissions": [],
+  "capabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
